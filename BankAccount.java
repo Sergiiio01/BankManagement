@@ -1,4 +1,8 @@
 class BankAccount {
+    public double getBalance() {
+        return balance;
+    }
+
     private double balance;
 
     public BankAccount(double initialBalance) {
@@ -8,13 +12,16 @@ class BankAccount {
     public synchronized void withdraw(double amount, String threadName) {
         System.out.println(threadName + " is trying to withdraw " + amount);
 
-        if (balance >= amount) {
-            System.out.println(threadName + " successfully withdrew " + amount);
-            balance -= amount;
-            System.out.println("Remaining balance: " + balance);
-        } else {
-            System.out.println(threadName + " failed to withdraw. Insufficient funds.");
+        while (balance < amount) {
+            try {
+                System.out.println("Insufficient balance. Waiting for deposit...");
+                wait(); // Wait until there is enough balance
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
+        balance -= amount;
+        System.out.println("Withdrawn: " + amount + " | Current balance: " + balance);
     }
 
     public synchronized void deposit(double amount, String threadName){
