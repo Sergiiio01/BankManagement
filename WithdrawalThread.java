@@ -15,18 +15,17 @@ class WithdrawalThread extends Thread {
     @Override
     public void run() {
         while(true){
-            synchronized (this) {
+
                 while (true) {
                     try {
                         account.withdraw(amount, threadName);
-                        this.wait(this.waitTime);
+                        sleep(this.waitTime);
                     } catch (InterruptedException e) {
                         System.out.println(e.getMessage());
                     }
                 }
-            }
-        }
 
+        }
     }
 
 }

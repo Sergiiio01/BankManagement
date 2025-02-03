@@ -15,14 +15,14 @@ class DepositThread extends Thread {
     @Override
     public void run() {
         while (true) {
-            synchronized (this) {
+
                 try {
                     account.deposit(amount, threadName);
-                    this.wait(this.waitTime);
+                    sleep(this.waitTime);
                 } catch (InterruptedException e) {
                     System.out.println(e.getMessage());
                 }
             }
-        }
+
     }
 }
