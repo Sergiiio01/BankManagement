@@ -16,23 +16,24 @@ class BankAccount {
 
     public synchronized void withdraw(double amount, String threadName) {
 
-        System.out.println(threadName + " is trying to withdraw " + amount);
 
         while (balance < amount) {
             try {
-                
+                System.out.println("\n\n" + threadName + " is trying to withdraw " + amount);
+                System.out.println("No balance enough");
                 wait(); // Wait until there is enough balance
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
+        System.out.println("\n\n" + threadName + " is trying to withdraw " + amount);
         balance -= amount;
         System.out.println("Withdrawn: " + (amount * 1 + (this.interest / 100)) + " | Current balance: " + balance);
         notify();
     }
 
     public synchronized void deposit(double amount, String threadName) {
-        System.out.println(threadName + " is trying to deposit " + amount);
+        System.out.println("\n\n" + threadName + " is trying to deposit " + amount);
 
         System.out.println(threadName + " successfully deposited " + amount);
         balance += amount;
